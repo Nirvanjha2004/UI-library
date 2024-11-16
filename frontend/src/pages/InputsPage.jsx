@@ -1,21 +1,122 @@
-import { Box, Typography, Container, Grid } from '@mui/material';
+import { Container, Typography, Grid, Box } from '@mui/material';
 import { motion } from 'framer-motion';
-import AnimatedInput from '../components/Inputs/AnimatedInput';
 import CodePreview from '../components/CodePreview/CodePreview';
+import AnimatedTextField from '../../../animated-mui-components/src/components/AnimatedTextField';
 
 const InputsPage = () => {
-  const inputExample = `
-import { AnimatedInput } from 'your-ui-library';
+  const inputExamples = [
+    {
+      title: 'Shake Animation (Error)',
+      component: (
+        <AnimatedTextField
+          error
+          label="Error Input"
+          helperText="This field is required"
+          fullWidth
+        />
+      ),
+      code: `
+<AnimatedTextField
+  error
+  label="Error Input"
+  helperText="This field is required"
+  fullWidth
+/>`
+    },
+    {
+      title: 'Bounce Animation',
+      component: (
+        <AnimatedTextField
+          animation="bounce"
+          label="Bounce Input"
+          placeholder="Type something..."
+          fullWidth
+        />
+      ),
+      code: `
+<AnimatedTextField
+  animation="bounce"
+  label="Bounce Input"
+  placeholder="Type something..."
+  fullWidth
+/>`
+    },
+    {
+      title: 'Glow Animation',
+      component: (
+        <AnimatedTextField
+          animation="glow"
+          label="Glow Input"
+          placeholder="Focus to see glow effect"
+          fullWidth
+        />
+      ),
+      code: `
+<AnimatedTextField
+  animation="glow"
+  label="Glow Input"
+  placeholder="Focus to see glow effect"
+  fullWidth
+/>`
+    }
+  ];
 
-function Example() {
-  return (
-    <AnimatedInput
-      label="Username"
-      placeholder="Enter your username"
-      variant="outlined"
-    />
-  );
-}`;
+  const variantExamples = [
+    {
+      title: 'Outlined Variant',
+      component: (
+        <AnimatedTextField
+          variant="outlined"
+          label="Outlined Input"
+          animation="glow"
+          fullWidth
+        />
+      ),
+      code: `
+<AnimatedTextField
+  variant="outlined"
+  label="Outlined Input"
+  animation="glow"
+  fullWidth
+/>`
+    },
+    {
+      title: 'Filled Variant',
+      component: (
+        <AnimatedTextField
+          variant="filled"
+          label="Filled Input"
+          animation="glow"
+          fullWidth
+        />
+      ),
+      code: `
+<AnimatedTextField
+  variant="filled"
+  label="Filled Input"
+  animation="glow"
+  fullWidth
+/>`
+    },
+    {
+      title: 'Standard Variant',
+      component: (
+        <AnimatedTextField
+          variant="standard"
+          label="Standard Input"
+          animation="glow"
+          fullWidth
+        />
+      ),
+      code: `
+<AnimatedTextField
+  variant="standard"
+  label="Standard Input"
+  animation="glow"
+  fullWidth
+/>`
+    }
+  ];
 
   return (
     <Container maxWidth="lg">
@@ -25,30 +126,49 @@ function Example() {
         transition={{ duration: 0.5 }}
       >
         <Typography variant="h1" gutterBottom>
-          Inputs
+          Animated Inputs
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
-          Beautiful, animated input components for your forms.
+        <Typography variant="body1" paragraph>
+          Enhance your form inputs with smooth animations and interactive effects.
         </Typography>
 
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h2" gutterBottom>
-            Examples
-          </Typography>
-          <Grid container spacing={3} sx={{ mb: 4 }}>
-            <Grid item xs={12} md={6}>
-              <AnimatedInput label="Standard Input" />
+        <Typography variant="h2" sx={{ mt: 6, mb: 3 }}>
+          Animation Examples
+        </Typography>
+        <Grid container spacing={4}>
+          {inputExamples.map((example, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.title}
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  {example.component}
+                </Box>
+                <CodePreview code={example.code} />
+              </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <AnimatedInput
-                label="Password"
-                type="password"
-                helperText="Enter your password"
-              />
+          ))}
+        </Grid>
+
+        <Typography variant="h2" sx={{ mt: 6, mb: 3 }}>
+          Variants
+        </Typography>
+        <Grid container spacing={4}>
+          {variantExamples.map((example, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.title}
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  {example.component}
+                </Box>
+                <CodePreview code={example.code} />
+              </Box>
             </Grid>
-          </Grid>
-          <CodePreview code={inputExample} />
-        </Box>
+          ))}
+        </Grid>
       </motion.div>
     </Container>
   );

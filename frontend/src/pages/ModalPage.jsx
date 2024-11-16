@@ -1,31 +1,151 @@
-import { Box, Typography, Container, Grid, Button, TextField } from '@mui/material';
+import { Container, Typography, Grid, Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import AnimatedModal from '../components/Modal/AnimatedModal';
 import CodePreview from '../components/CodePreview/CodePreview';
+import AnimatedModal from '../../../animated-mui-components/src/components/AnimatedModal';
 
 const ModalPage = () => {
-  const [openBasic, setOpenBasic] = useState(false);
-  const [openForm, setOpenForm] = useState(false);
+  const [modals, setModals] = useState({});
 
-  const modalExample = `
-import { AnimatedModal } from 'your-ui-library';
+  const handleOpen = (id) => {
+    setModals(prev => ({
+      ...prev,
+      [id]: true
+    }));
+  };
 
-function Example() {
-  const [open, setOpen] = useState(false);
-  
-  return (
-    <>
-      <Button onClick={() => setOpen(true)}>
-        Open Modal
-      </Button>
-      <AnimatedModal open={open} onClose={() => setOpen(false)}>
-        <Typography variant="h6">Modal Title</Typography>
-        <Typography>Modal content goes here...</Typography>
-      </AnimatedModal>
-    </>
-  );
-}`;
+  const handleClose = (id) => {
+    setModals(prev => ({
+      ...prev,
+      [id]: false
+    }));
+  };
+
+  const modalExamples = [
+    {
+      title: 'Scale Animation',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            onClick={() => handleOpen('scale')}
+          >
+            Open Scale Modal
+          </Button>
+          <AnimatedModal
+            open={modals['scale'] || false}
+            onClose={() => handleClose('scale')}
+            animation="scale"
+          >
+            <Typography variant="h5" gutterBottom>Scale Modal</Typography>
+            <Typography>This modal scales in and out smoothly.</Typography>
+          </AnimatedModal>
+        </>
+      ),
+      code: `
+<AnimatedModal
+  open={open}
+  onClose={handleClose}
+  animation="scale"
+>
+  <Typography variant="h5" gutterBottom>Scale Modal</Typography>
+  <Typography>This modal scales in and out smoothly.</Typography>
+</AnimatedModal>`
+    },
+    {
+      title: 'Fade Animation',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="secondary"
+            onClick={() => handleOpen('fade')}
+          >
+            Open Fade Modal
+          </Button>
+          <AnimatedModal
+            open={modals['fade'] || false}
+            onClose={() => handleClose('fade')}
+            animation="fade"
+          >
+            <Typography variant="h5" gutterBottom>Fade Modal</Typography>
+            <Typography>This modal fades in and out.</Typography>
+          </AnimatedModal>
+        </>
+      ),
+      code: `
+<AnimatedModal
+  open={open}
+  onClose={handleClose}
+  animation="fade"
+>
+  <Typography variant="h5" gutterBottom>Fade Modal</Typography>
+  <Typography>This modal fades in and out.</Typography>
+</AnimatedModal>`
+    },
+    {
+      title: 'Slide Up Animation',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="success"
+            onClick={() => handleOpen('slideUp')}
+          >
+            Open Slide Up Modal
+          </Button>
+          <AnimatedModal
+            open={modals['slideUp'] || false}
+            onClose={() => handleClose('slideUp')}
+            animation="slideUp"
+          >
+            <Typography variant="h5" gutterBottom>Slide Up Modal</Typography>
+            <Typography>This modal slides up into view.</Typography>
+          </AnimatedModal>
+        </>
+      ),
+      code: `
+<AnimatedModal
+  open={open}
+  onClose={handleClose}
+  animation="slideUp"
+>
+  <Typography variant="h5" gutterBottom>Slide Up Modal</Typography>
+  <Typography>This modal slides up into view.</Typography>
+</AnimatedModal>`
+    },
+    {
+      title: 'Flip Animation',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="warning"
+            onClick={() => handleOpen('flip')}
+          >
+            Open Flip Modal
+          </Button>
+          <AnimatedModal
+            open={modals['flip'] || false}
+            onClose={() => handleClose('flip')}
+            animation="flip"
+          >
+            <Typography variant="h5" gutterBottom>Flip Modal</Typography>
+            <Typography>This modal flips into view.</Typography>
+          </AnimatedModal>
+        </>
+      ),
+      code: `
+<AnimatedModal
+  open={open}
+  onClose={handleClose}
+  animation="flip"
+>
+  <Typography variant="h5" gutterBottom>Flip Modal</Typography>
+  <Typography>This modal flips into view.</Typography>
+</AnimatedModal>`
+    }
+  ];
 
   return (
     <Container maxWidth="lg">
@@ -35,63 +155,30 @@ function Example() {
         transition={{ duration: 0.5 }}
       >
         <Typography variant="h1" gutterBottom>
-          Modal
+          Animated Modals
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
-          Animated modal components for displaying content in overlays.
+        <Typography variant="body1" paragraph>
+          Enhance your modals with smooth animations and transitions.
         </Typography>
 
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h2" gutterBottom>
-            Examples
-          </Typography>
-          <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item>
-              <Button variant="contained" onClick={() => setOpenBasic(true)}>
-                Open Basic Modal
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="secondary" onClick={() => setOpenForm(true)}>
-                Open Form Modal
-              </Button>
-            </Grid>
-          </Grid>
-
-          <AnimatedModal open={openBasic} onClose={() => setOpenBasic(false)}>
-            <Box sx={{ minWidth: 300, maxWidth: 500 }}>
-              <Typography variant="h6" gutterBottom>Basic Modal</Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                This is a basic modal with simple content.
-              </Typography>
-              <Button variant="contained" onClick={() => setOpenBasic(false)}>
-                Close
-              </Button>
-            </Box>
-          </AnimatedModal>
-
-          <AnimatedModal open={openForm} onClose={() => setOpenForm(false)}>
-            <Box sx={{ minWidth: 400, maxWidth: 600 }}>
-              <Typography variant="h6" gutterBottom>Form Modal</Typography>
-              <Grid container spacing={2} sx={{ mb: 2 }}>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="Name" variant="outlined" />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="Email" variant="outlined" />
-                </Grid>
-              </Grid>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-                <Button onClick={() => setOpenForm(false)}>Cancel</Button>
-                <Button variant="contained" onClick={() => setOpenForm(false)}>
-                  Submit
-                </Button>
+        <Typography variant="h2" sx={{ mt: 6, mb: 3 }}>
+          Animation Examples
+        </Typography>
+        <Grid container spacing={4}>
+          {modalExamples.map((example, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.title}
+                </Typography>
+                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+                  {example.component}
+                </Box>
+                <CodePreview code={example.code} />
               </Box>
-            </Box>
-          </AnimatedModal>
-
-          <CodePreview code={modalExample} />
-        </Box>
+            </Grid>
+          ))}
+        </Grid>
       </motion.div>
     </Container>
   );

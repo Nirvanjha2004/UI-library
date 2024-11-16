@@ -1,29 +1,152 @@
-import { Box, Typography, Container, Button } from '@mui/material';
+import { Container, Typography, Grid, Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import AnimatedAlert from '../components/Alerts/AnimatedAlert';
 import CodePreview from '../components/CodePreview/CodePreview';
+import AnimatedToast from '../../../animated-mui-components/src/components/AnimatedToast';
 
 const AlertsPage = () => {
-  const [showSuccess, setShowSuccess] = useState(true);
-  const [showError, setShowError] = useState(true);
+  const [alerts, setAlerts] = useState({});
 
-  const alertExample = `
-import { AnimatedAlert } from 'your-ui-library';
+  const showAlert = (id) => {
+    setAlerts(prev => ({
+      ...prev,
+      [id]: true
+    }));
+  };
 
-function Example() {
-  const [show, setShow] = useState(true);
-  
-  return (
-    <AnimatedAlert 
-      severity="success" 
-      show={show}
-      onClose={() => setShow(false)}
-    >
-      This is a success alert!
-    </AnimatedAlert>
-  );
-}`;
+  const hideAlert = (id) => {
+    setAlerts(prev => ({
+      ...prev,
+      [id]: false
+    }));
+  };
+
+  const alertExamples = [
+    {
+      title: 'Success Alert with Slide Right',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="success"
+            onClick={() => showAlert('success')}
+          >
+            Show Success Alert
+          </Button>
+          <AnimatedToast
+            open={alerts['success'] || false}
+            onClose={() => hideAlert('success')}
+            message="Operation completed successfully!"
+            severity="success"
+            animation="slideRight"
+            variant="filled"
+          />
+        </>
+      ),
+      code: `
+<AnimatedToast
+  open={open}
+  onClose={handleClose}
+  message="Operation completed successfully!"
+  severity="success"
+  animation="slideRight"
+  variant="filled"
+/>`
+    },
+    {
+      title: 'Error Alert with Slide Left',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="error"
+            onClick={() => showAlert('error')}
+          >
+            Show Error Alert
+          </Button>
+          <AnimatedToast
+            open={alerts['error'] || false}
+            onClose={() => hideAlert('error')}
+            message="An error occurred!"
+            severity="error"
+            animation="slideLeft"
+            variant="filled"
+          />
+        </>
+      ),
+      code: `
+<AnimatedToast
+  open={open}
+  onClose={handleClose}
+  message="An error occurred!"
+  severity="error"
+  animation="slideLeft"
+  variant="filled"
+/>`
+    },
+    {
+      title: 'Warning Alert with Scale Animation',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="warning"
+            onClick={() => showAlert('warning')}
+          >
+            Show Warning Alert
+          </Button>
+          <AnimatedToast
+            open={alerts['warning'] || false}
+            onClose={() => hideAlert('warning')}
+            message="Please proceed with caution!"
+            severity="warning"
+            animation="scale"
+            variant="outlined"
+          />
+        </>
+      ),
+      code: `
+<AnimatedToast
+  open={open}
+  onClose={handleClose}
+  message="Please proceed with caution!"
+  severity="warning"
+  animation="scale"
+  variant="outlined"
+/>`
+    },
+    {
+      title: 'Info Alert with Fade Animation',
+      component: (
+        <>
+          <Button 
+            variant="contained" 
+            color="info"
+            onClick={() => showAlert('info')}
+          >
+            Show Info Alert
+          </Button>
+          <AnimatedToast
+            open={alerts['info'] || false}
+            onClose={() => hideAlert('info')}
+            message="Here's some useful information."
+            severity="info"
+            animation="fade"
+            variant="standard"
+          />
+        </>
+      ),
+      code: `
+<AnimatedToast
+  open={open}
+  onClose={handleClose}
+  message="Here's some useful information."
+  severity="info"
+  animation="fade"
+  variant="standard"
+/>`
+    }
+  ];
 
   return (
     <Container maxWidth="lg">
@@ -33,50 +156,30 @@ function Example() {
         transition={{ duration: 0.5 }}
       >
         <Typography variant="h1" gutterBottom>
-          Alerts
+          Animated Alerts
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
-          Animated alert components for displaying messages and notifications.
+        <Typography variant="body1" paragraph>
+          Enhance your alerts with smooth animations and transitions.
         </Typography>
 
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h2" gutterBottom>
-            Examples
-          </Typography>
-          <Box sx={{ mb: 4 }}>
-            <AnimatedAlert 
-              severity="success" 
-              show={showSuccess}
-              onClose={() => setShowSuccess(false)}
-            >
-              This is a success alert — check it out!
-            </AnimatedAlert>
-            <AnimatedAlert 
-              severity="error" 
-              show={showError}
-              onClose={() => setShowError(false)}
-            >
-              This is an error alert — check it out!
-            </AnimatedAlert>
-            <AnimatedAlert severity="warning">
-              This is a warning alert — check it out!
-            </AnimatedAlert>
-            <AnimatedAlert severity="info">
-              This is an info alert — check it out!
-            </AnimatedAlert>
-          </Box>
-          <Button 
-            variant="contained" 
-            onClick={() => {
-              setShowSuccess(true);
-              setShowError(true);
-            }}
-            sx={{ mb: 4 }}
-          >
-            Reset Alerts
-          </Button>
-          <CodePreview code={alertExample} />
-        </Box>
+        <Typography variant="h2" sx={{ mt: 6, mb: 3 }}>
+          Examples
+        </Typography>
+        <Grid container spacing={4}>
+          {alertExamples.map((example, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.title}
+                </Typography>
+                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', height: 100 }}>
+                  {example.component}
+                </Box>
+                <CodePreview code={example.code} />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
       </motion.div>
     </Container>
   );

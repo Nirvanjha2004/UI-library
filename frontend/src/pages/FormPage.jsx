@@ -1,134 +1,241 @@
-import { Box, Typography, Container } from '@mui/material';
+import { Container, Typography, Grid, Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
-import * as Yup from 'yup';
-import AnimatedForm from '../components/Form/AnimatedForm';
-import CodePreview from '../components/CodePreview/CodePreview';
-import { useToast } from '../App';
 import { useState } from 'react';
+import CodePreview from '../components/CodePreview/CodePreview';
+import AnimatedTextField from '../../../animated-mui-components/src/components/AnimatedTextField';
 
 const FormPage = () => {
-  const { showToast } = useToast();
-  
-  // Define initial form state
-  const initialFormState = {
+  const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: '',
+    password: ''
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (field) => (event) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: event.target.value
+    }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: ''
+      }));
+    }
   };
 
-  const [formValues, setFormValues] = useState(initialFormState);
-
-  const formFields = [
-    {
-      name: 'username',
-      label: 'Username *',
-      type: 'text',
-      required: true,
-      autoComplete: 'username',
-      helperText: 'Enter your username',
-    },
-    {
-      name: 'email',
-      label: 'Email *',
-      type: 'email',
-      required: true,
-      autoComplete: 'email',
-      helperText: 'Enter your email address',
-    },
-    {
-      name: 'password',
-      label: 'Password *',
-      type: 'password',
-      required: true,
-      autoComplete: 'new-password',
-      helperText: 'Enter your password',
-    },
-  ];
-
-  const validationSchema = {
-    username: Yup.string()
-      .min(3, 'Username must be at least 3 characters')
-      .required('Username is required'),
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.username) newErrors.username = 'Username is required';
+    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.password) newErrors.password = 'Password is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Update form values
-    setFormValues(values);
-    
-    setTimeout(() => {
-      console.log('Form values:', values);
-      showToast('Form submitted successfully!', 'success');
-      setSubmitting(false);
-      // Don't reset the form
-    }, 1000);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (validate()) {
+      console.log('Form submitted:', formData);
+    }
   };
 
-  const formExample = `
-import { AnimatedForm } from 'your-ui-library';
-import * as Yup from 'yup';
+  const formExamples = [
+    {
+      title: 'Basic Form with Animations',
+      component: (
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+          <AnimatedTextField
+            fullWidth
+            label="Username"
+            value={formData.username}
+            onChange={handleChange('username')}
+            error={Boolean(errors.username)}
+            helperText={errors.username}
+            animation="glow"
+            sx={{ mb: 2 }}
+          />
+          <AnimatedTextField
+            fullWidth
+            label="Email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange('email')}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
+            animation="glow"
+            sx={{ mb: 2 }}
+          />
+          <AnimatedTextField
+            fullWidth
+            label="Password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange('password')}
+            error={Boolean(errors.password)}
+            helperText={errors.password}
+            animation="glow"
+            sx={{ mb: 2 }}
+          />
+          <Button 
+            variant="contained" 
+            color="primary" 
+            type="submit"
+            fullWidth
+          >
+            Submit
+          </Button>
+        </Box>
+      ),
+      code: `
+const [formData, setFormData] = useState({
+  username: '',
+  email: '',
+  password: ''
+});
 
-const formFields = [
-  {
-    name: 'username',
-    label: 'Username',
-    required: true,
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    required: true,
-  },
-];
+const [errors, setErrors] = useState({});
 
-const validationSchema = {
-  username: Yup.string().required('Username is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
+const handleChange = (field) => (event) => {
+  setFormData(prev => ({
+    ...prev,
+    [field]: event.target.value
+  }));
 };
 
-<AnimatedForm
-  fields={formFields}
-  validationSchema={validationSchema}
-  onSubmit={handleSubmit}
-  submitLabel="Submit"
-/>`;
+<Box component="form" onSubmit={handleSubmit}>
+  <AnimatedTextField
+    fullWidth
+    label="Username"
+    value={formData.username}
+    onChange={handleChange('username')}
+    error={Boolean(errors.username)}
+    helperText={errors.username}
+    animation="glow"
+  />
+  <AnimatedTextField
+    fullWidth
+    label="Email"
+    type="email"
+    value={formData.email}
+    onChange={handleChange('email')}
+    error={Boolean(errors.email)}
+    helperText={errors.email}
+    animation="glow"
+  />
+  <AnimatedTextField
+    fullWidth
+    label="Password"
+    type="password"
+    value={formData.password}
+    onChange={handleChange('password')}
+    error={Boolean(errors.password)}
+    helperText={errors.password}
+    animation="glow"
+  />
+  <Button 
+    variant="contained" 
+    color="primary" 
+    type="submit"
+    fullWidth
+  >
+    Submit
+  </Button>
+</Box>`
+    },
+    {
+      title: 'Error Animation Example',
+      component: (
+        <AnimatedTextField
+          fullWidth
+          label="Error Example"
+          error
+          helperText="This field has an error"
+          defaultValue="Invalid input"
+        />
+      ),
+      code: `
+<AnimatedTextField
+  fullWidth
+  label="Error Example"
+  error
+  helperText="This field has an error"
+  defaultValue="Invalid input"
+/>`
+    },
+    {
+      title: 'Bounce Animation',
+      component: (
+        <AnimatedTextField
+          fullWidth
+          label="Bounce Animation"
+          animation="bounce"
+          placeholder="Focus to see animation"
+        />
+      ),
+      code: `
+<AnimatedTextField
+  fullWidth
+  label="Bounce Animation"
+  animation="bounce"
+  placeholder="Focus to see animation"
+/>`
+    },
+    {
+      title: 'Glow Animation',
+      component: (
+        <AnimatedTextField
+          fullWidth
+          label="Glow Animation"
+          animation="glow"
+          placeholder="Focus to see animation"
+        />
+      ),
+      code: `
+<AnimatedTextField
+  fullWidth
+  label="Glow Animation"
+  animation="glow"
+  placeholder="Focus to see animation"
+/>`
+    }
+  ];
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <Typography variant="h1" gutterBottom>
-          Form Components
+          Animated Forms
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
-          Animated form components with validation and error handling.
+        <Typography variant="body1" paragraph>
+          Enhance your forms with smooth animations and interactive effects.
         </Typography>
 
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h2" gutterBottom>
-            Registration Form
-          </Typography>
-          <AnimatedForm
-            fields={formFields}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-            initialValues={formValues}
-            submitLabel="Register"
-            enableReinitialize={false}
-          />
-          <Box sx={{ mt: 4 }}>
-            <CodePreview code={formExample} />
-          </Box>
-        </Box>
+        <Typography variant="h2" sx={{ mt: 6, mb: 3 }}>
+          Examples
+        </Typography>
+        <Grid container spacing={4}>
+          {formExamples.map((example, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.title}
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  {example.component}
+                </Box>
+                <CodePreview code={example.code} />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
       </motion.div>
     </Container>
   );

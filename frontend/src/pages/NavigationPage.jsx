@@ -1,82 +1,132 @@
-import { Box, Typography, Container, Grid, Button } from '@mui/material';
+import { Container, Typography, Grid, Box, Paper } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import CodePreview from '../components/CodePreview/CodePreview';
+import AnimatedTabs from '../../../animated-mui-components/src/components/AnimatedTabs';
+import AnimatedBottomNavigation from '../../../animated-mui-components/src/components/AnimatedBottomNavigation';
+import AnimatedBreadcrumbs from '../../../animated-mui-components/src/components/AnimatedBreadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
-import EmailIcon from '@mui/icons-material/Email';
-import AnimatedDrawer from '../components/Navigation/AnimatedDrawer';
-import CodePreview from '../components/CodePreview/CodePreview';
 
 const NavigationPage = () => {
-  const [openTemp, setOpenTemp] = useState(false);
-  const [openMini, setOpenMini] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
+  const [bottomNavValue, setBottomNavValue] = useState(0);
 
-  const navigationItems = [
-    {
-      id: 'home',
-      label: 'Home',
-      icon: <HomeIcon />,
-    },
-    {
-      id: 'messages',
-      label: 'Messages',
-      icon: <EmailIcon />,
-      items: [
-        { id: 'inbox', label: 'Inbox' },
-        { id: 'sent', label: 'Sent' },
-      ],
-    },
-    {
-      id: 'profile',
-      label: 'Profile',
-      icon: <PersonIcon />,
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: <SettingsIcon />,
-      items: [
-        { id: 'account', label: 'Account' },
-        { id: 'security', label: 'Security' },
-      ],
-    },
+  const tabItems = [
+    { label: 'Home', icon: <HomeIcon /> },
+    { label: 'Favorites', icon: <FavoriteIcon /> },
+    { label: 'Profile', icon: <PersonIcon /> },
+    { label: 'Settings', icon: <SettingsIcon /> }
   ];
 
-  const drawerExample = `
-import { AnimatedDrawer } from 'your-ui-library';
+  const breadcrumbItems = [
+    { text: 'Home', href: '#' },
+    { text: 'Category', href: '#' },
+    { text: 'Current Page' }
+  ];
 
-const navigationItems = [
-  {
-    id: 'home',
-    label: 'Home',
-    icon: <HomeIcon />,
-  },
-  {
-    id: 'messages',
-    label: 'Messages',
-    icon: <EmailIcon />,
-    items: [
-      { id: 'inbox', label: 'Inbox' },
-      { id: 'sent', label: 'Sent' },
-    ],
-  },
-];
-
-// Permanent Drawer
-<AnimatedDrawer
-  variant="permanent"
-  items={navigationItems}
-  onItemClick={(item) => console.log(item)}
-/>
-
-// Mini Drawer
-<AnimatedDrawer
-  variant="mini"
-  open={open}
-  items={navigationItems}
-  onClose={() => setOpen(false)}
-/>`;
+  const navigationExamples = [
+    {
+      title: 'Animated Tabs with Slide Animation',
+      component: (
+        <Paper sx={{ width: '100%' }}>
+          <AnimatedTabs
+            value={tabValue}
+            onChange={(e, newValue) => setTabValue(newValue)}
+            tabs={tabItems}
+            animation="slide"
+            indicatorAnimation="slide"
+          />
+        </Paper>
+      ),
+      code: `
+<AnimatedTabs
+  value={tabValue}
+  onChange={(e, newValue) => setTabValue(newValue)}
+  tabs={[
+    { label: 'Home', icon: <HomeIcon /> },
+    { label: 'Favorites', icon: <FavoriteIcon /> },
+    { label: 'Profile', icon: <PersonIcon /> },
+    { label: 'Settings', icon: <SettingsIcon /> }
+  ]}
+  animation="slide"
+  indicatorAnimation="slide"
+/>`
+    },
+    {
+      title: 'Animated Bottom Navigation',
+      component: (
+        <Box sx={{ width: '100%', position: 'relative', height: 100 }}>
+          <AnimatedBottomNavigation
+            value={bottomNavValue}
+            onChange={(e, newValue) => setBottomNavValue(newValue)}
+            items={tabItems}
+            animation="slideUp"
+            itemAnimation="bounce"
+          />
+        </Box>
+      ),
+      code: `
+<AnimatedBottomNavigation
+  value={bottomNavValue}
+  onChange={(e, newValue) => setBottomNavValue(newValue)}
+  items={[
+    { label: 'Home', icon: <HomeIcon /> },
+    { label: 'Favorites', icon: <FavoriteIcon /> },
+    { label: 'Profile', icon: <PersonIcon /> },
+    { label: 'Settings', icon: <SettingsIcon /> }
+  ]}
+  animation="slideUp"
+  itemAnimation="bounce"
+/>`
+    },
+    {
+      title: 'Animated Breadcrumbs',
+      component: (
+        <AnimatedBreadcrumbs
+          items={breadcrumbItems}
+          animation="slide"
+          hover="glow"
+        />
+      ),
+      code: `
+<AnimatedBreadcrumbs
+  items={[
+    { text: 'Home', href: '#' },
+    { text: 'Category', href: '#' },
+    { text: 'Current Page' }
+  ]}
+  animation="slide"
+  hover="glow"
+/>`
+    },
+    {
+      title: 'Vertical Tabs with Scale Animation',
+      component: (
+        <Paper sx={{ width: '100%' }}>
+          <AnimatedTabs
+            value={tabValue}
+            onChange={(e, newValue) => setTabValue(newValue)}
+            tabs={tabItems}
+            animation="scale"
+            indicatorAnimation="fade"
+            orientation="vertical"
+          />
+        </Paper>
+      ),
+      code: `
+<AnimatedTabs
+  value={tabValue}
+  onChange={(e, newValue) => setTabValue(newValue)}
+  tabs={tabItems}
+  animation="scale"
+  indicatorAnimation="fade"
+  orientation="vertical"
+/>`
+    }
+  ];
 
   return (
     <Container maxWidth="lg">
@@ -86,63 +136,30 @@ const navigationItems = [
         transition={{ duration: 0.5 }}
       >
         <Typography variant="h1" gutterBottom>
-          Navigation
+          Navigation Components
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
-          Enhanced navigation drawer components with animations and nested items.
+        <Typography variant="body1" paragraph>
+          Enhance your navigation with smooth animations and transitions.
         </Typography>
 
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h2" gutterBottom>
-            Drawer Variations
-          </Typography>
-          <Grid container spacing={2} sx={{ mb: 4 }}>
-            <Grid item>
-              <Button
-                variant="contained"
-                onClick={() => setOpenTemp(true)}
-              >
-                Open Temporary Drawer
-              </Button>
+        <Typography variant="h2" sx={{ mt: 6, mb: 3 }}>
+          Examples
+        </Typography>
+        <Grid container spacing={4}>
+          {navigationExamples.map((example, index) => (
+            <Grid item xs={12} key={index}>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.title}
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  {example.component}
+                </Box>
+                <CodePreview code={example.code} />
+              </Box>
             </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => setOpenMini(!openMini)}
-              >
-                Toggle Mini Drawer
-              </Button>
-            </Grid>
-          </Grid>
-
-          {/* Temporary Drawer */}
-          <AnimatedDrawer
-            variant="temporary"
-            open={openTemp}
-            onClose={() => setOpenTemp(false)}
-            items={navigationItems}
-            onItemClick={(item) => console.log('Selected:', item)}
-            header={
-              <Typography variant="h6" sx={{ p: 2 }}>
-                Menu
-              </Typography>
-            }
-          />
-
-          {/* Mini Drawer */}
-          <AnimatedDrawer
-            variant="mini"
-            open={openMini}
-            items={navigationItems}
-            onItemClick={(item) => console.log('Selected:', item)}
-            sx={{ position: 'relative' }}
-          />
-
-          <Box sx={{ mt: 4 }}>
-            <CodePreview code={drawerExample} />
-          </Box>
-        </Box>
+          ))}
+        </Grid>
       </motion.div>
     </Container>
   );

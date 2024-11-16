@@ -1,0 +1,23 @@
+{
+  "name": "@your-scope/animated-mui-components",
+  "version": "1.0.0",
+  "description": "Animated components built with Material-UI and Framer Motion",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@mui/material": "^5.x",
+    "@emotion/react": "^11.x",
+    "@emotion/styled": "^11.x",
+    "framer-motion": "^10.x",
+    "react": "^18.x",
+    "react-dom": "^18.x"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "prepare": "npm run build"
+  }
+} 
