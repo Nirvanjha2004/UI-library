@@ -33,10 +33,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import CollectionsIcon from '@mui/icons-material/Collections';
+import PagesRoundedIcon from '@mui/icons-material/PagesRounded';
+import GridViewIcon from '@mui/icons-material/GridView';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import DvrIcon from '@mui/icons-material/Dvr';
 
 const iconComponents = {
   DownloadIcon,
   MenuBookIcon,
+  DvrIcon,
+  PagesRoundedIcon,
+  GridViewIcon,
+  DarkModeIcon,
   SmartButtonIcon,
   DashboardIcon,
   LabelIcon,

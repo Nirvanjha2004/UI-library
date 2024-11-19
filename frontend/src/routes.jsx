@@ -29,6 +29,30 @@ import AccordionPage from './pages/AccordionPage';
 import ModalPage from './pages/ModalPage';
 import StepperPage from './pages/StepperPage';
 import GalleryPage from './pages/GalleryPage';
+import PremiumPage from './pages/premium/PremiumPage';
+import TemplatesPage from './pages/premium/TemplatesPage';
+import PremiumPagesPage from './pages/premium/PagesPage';
+import PremiumComponentsPage from './pages/premium/ComponentsPage';
+import ThemesPage from './pages/premium/ThemesPage';
+import DarkThemeDemo from './pages/premium/demos/DarkThemeDemo';
+import LightThemeDemo from './pages/premium/demos/LightThemeDemo';
+import GradientThemeDemo from './pages/premium/demos/GradientThemeDemo';
+import ThemeBuilderDemo from './pages/premium/demos/ThemeBuilderDemo';
+import InteractiveMapsDemo from './pages/premium/demos/InteractiveMapsDemo';
+import FileUploadDemo from './pages/premium/demos/FileUploadDemo';
+import EcommerceDemo from './pages/premium/demos/EcommerceDemo';
+import TravelBookingDemo from './pages/premium/demos/TravelBookingDemo';
+import AgencyDemo from './pages/premium/demos/AgencyDemo';
+import DashboardDemo from './pages/premium/demos/DashboardDemo';
+import PricingPageDemo from './pages/premium/demos/PricingPageDemo';
+import AuthPagesDemo from './pages/premium/demos/AuthPagesDemo';
+import ProfilePagesDemo from './pages/premium/demos/ProfilePagesDemo';
+import BlogDemo from './pages/premium/demos/BlogDemo';
+import PortfolioDemo from './pages/premium/demos/PortfolioDemo';
+import ContactPageDemo from './pages/premium/demos/ContactPageDemo';
+import LandingPageDemo from './pages/premium/demos/LandingPageDemo';
+import AdvancedChartsDemo from './pages/premium/demos/AdvancedChartsDemo';
+import ComplexFormsDemo from './pages/premium/demos/ComplexFormsDemo';
 
 const AppRoutes = () => {
   return (
@@ -75,6 +99,45 @@ const AppRoutes = () => {
       <Route path="/components/modal" element={<ModalPage />} />
       <Route path="/components/stepper" element={<StepperPage />} />
       <Route path="/components/gallery" element={<GalleryPage />} />
+
+      {/* Premium Routes */}
+      <Route path="/premium" element={<PremiumPage />} />
+      <Route path="/premium/templates" element={<TemplatesPage />} />
+      <Route path="/premium/pages" element={<PremiumPagesPage />} />
+      <Route path="/premium/components" element={<PremiumComponentsPage />} />
+      <Route path="/premium/themes" element={<ThemesPage />} />
+
+      {/* Premium Demo Routes */}
+      <Route path="/premium/themes/dark-demo" element={<DarkThemeDemo />} />
+      <Route path="/premium/themes/light-demo" element={<LightThemeDemo />} />
+      <Route path="/premium/themes/gradient-demo" element={<GradientThemeDemo />} />
+      <Route path="/premium/themes/builder-demo" element={<ThemeBuilderDemo />} />
+      <Route path="/premium/components/maps-demo" element={<InteractiveMapsDemo />} />
+      <Route path="/premium/components/upload-demo" element={<FileUploadDemo />} />
+      <Route path="/premium/templates/ecommerce-demo" element={<EcommerceDemo />} />
+      <Route path="/premium/templates/travel-demo" element={<TravelBookingDemo />} />
+      <Route path="/premium/templates/agency-demo" element={<AgencyDemo />} />
+      <Route path="/premium/templates/dashboard-demo" element={<DashboardDemo />} />
+      <Route path="/premium/pages/pricing-demo" element={<PricingPageDemo />} />
+      <Route path="/premium/pages/auth-demo" element={<AuthPagesDemo />} />
+      <Route path="/premium/pages/profile-demo" element={<ProfilePagesDemo />} />
+      <Route path="/premium/templates/blog-demo" element={<BlogDemo />} />
+      <Route path="/premium/templates/portfolio-demo" element={<PortfolioDemo />} />
+      <Route path="/premium/pages/contact-demo" element={<ContactPageDemo />} />
+      <Route path="/premium/pages/pricing-demo" element={<PricingPageDemo />} />
+      
+      <Route path="/premium/templates/landing-demo" element={<LandingPageDemo />} />
+      <Route path="/premium/templates/blog-demo" element={<BlogDemo />} />
+      <Route path="/premium/templates/portfolio-demo" element={<PortfolioDemo />} />
+      <Route path="/premium/templates/ecommerce-demo" element={<EcommerceDemo />} />
+      <Route path="/premium/templates/travel-demo" element={<TravelBookingDemo />} />
+      <Route path="/premium/templates/agency-demo" element={<AgencyDemo />} />
+      <Route path="/premium/templates/dashboard-demo" element={<DashboardDemo />} />
+
+      <Route path="/premium/components/charts-demo" element={<AdvancedChartsDemo />} />
+      <Route path="/premium/components/forms-demo" element={<ComplexFormsDemo />} />
+      <Route path="/premium/components/maps-demo" element={<InteractiveMapsDemo />} />
+      <Route path="/premium/components/upload-demo" element={<FileUploadDemo />} />
     </Routes>
   );
 };

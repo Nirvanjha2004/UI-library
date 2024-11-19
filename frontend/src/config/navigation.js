@@ -7,6 +7,15 @@ export const navigationConfig = [
       ]
     },
     {
+      title: 'Premium',
+      items: [
+        { path: '/premium/templates', name: 'Templates', icon: 'WebIcon' },
+        { path: '/premium/pages', name: 'Pages', icon: 'PagesIcon' },
+        { path: '/premium/components', name: 'Components', icon: 'StarIcon' },
+        { path: '/premium/themes', name: 'Themes', icon: 'PaletteIcon' }
+      ]
+    },
+    {
       title: 'Basic Components',
       items: [
         { path: '/components/buttons', name: 'Buttons', icon: 'SmartButtonIcon' },
